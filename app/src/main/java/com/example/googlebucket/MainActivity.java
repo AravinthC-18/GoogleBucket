@@ -38,25 +38,25 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    String TAG="MainActivity";
+    String projectId = "eordersall";
+    //eordersall.appspot.com/testingaudio
+    String bucketName = "eordersall.appspot.com";
+    //String userEmail = "eordersall@appspot.gserviceaccount.com";
+    //String userEmail = "aostapharmacy@eordersall.iam.gserviceaccount.com";
+    String userEmail = "aostapharmacy@eordersall.iam.gserviceaccount.com";
 
+    String accessTokenCrediental = "149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
+
+
+    //get Download object
+    String destFilePath = "/local/path/to/file.txt";
+    String objectName = "testingaudio";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String projectId = "eordersall";
-        //eordersall.appspot.com/testingaudio
-        String bucketName = "eordersall.appspot.com";
-        //String userEmail = "eordersall@appspot.gserviceaccount.com";
-        //String userEmail = "aostapharmacy@eordersall.iam.gserviceaccount.com";
-        String userEmail = "aostapharmacy@eordersall.iam.gserviceaccount.com";
-
-        String accessTokenCrediental = "149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
-
-
-        //get Download object
-        String destFilePath = "/local/path/to/file.txt";
-        String objectName = "testingaudio";
         Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -69,7 +69,65 @@ public class MainActivity extends AppCompatActivity {
                     calendar.setTime(currentTime);
                     calendar.add(Calendar.DATE, 1);
                     currentTime = calendar.getTime();
-                    Log.e("TAG", "msg>>time>>" + currentTime);
+                    Log.e(TAG, "msg>>time>>" + currentTime);
+
+
+                    Storage storage = StorageOptions.newBuilder()
+                            .setCredentials(ServiceAccountCredentials.fromStream(getResources().openRawResource(R.raw.server_key)))
+                            .build()
+                            .getService();
+
+                    //Log.e(TAG, "msg>>storage::>>" + new GsonBuilder().create().toJson(storage));
+
+                    Bucket bucket = storage.get(bucketName);
+                    Log.e(TAG, "msg>>getName>>" + bucket.getName());
+
+                    /////////////////////**************   GET BUCKET AND DETAILS **********************//////////////
+                    //ListObjects
+                    Page<Blob> blobs = storage.list(bucketName);
+
+                    for (Blob blob : blobs.iterateAll()) {
+                        Log.e(TAG,"msg>>blobget>>"+blob.getName());
+                        //get download objects get bucket specific details
+                        Blob blob1 = storage.get(BlobId.of(bucketName, blob.getName()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            Log.e(TAG, "msg>>blob::>>" + new GsonBuilder().create().toJson(blob1));
+                            //blob.downloadTo(Paths.get(destFilePath));
+                        }
+                        //get download objects get bucket specific details end end
+                    }
+                    //ListObjects end end
+                    /////////////////////**************   GET BUCKET AND DETAILS **********************//////////////
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "msg>>error>>" + e.getMessage());
+
+
+                }
+            }
+        });
+        thread.start();
+
+
+
+
+
+
+
+
+
+
+
+
+        //Storage storage = StorageOptions.getDefaultInstance().getService();
+     /*   String accessTokenCrediental="149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
+        Date currentTime = Calendar.getInstance().getTime();
+        Credentials credentials = GoogleCredentials.create(new AccessToken(accessTokenCrediental,currentTime));
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();*/
 
 
                     /*//Using Credentials
@@ -80,43 +138,24 @@ public class MainActivity extends AppCompatActivity {
                             .getService();*/
 
 
-                    Storage storage = StorageOptions.newBuilder()
-                            .setCredentials(ServiceAccountCredentials.fromStream(getResources().openRawResource(R.raw.server_key)))
-                            .build()
-                            .getService();
-
-                    //Log.e("TAG", "msg>>storage::>>" + new GsonBuilder().create().toJson(storage));
-
-                    Bucket bucket = storage.get(bucketName);
-                    Log.e("TAG", "msg>>getName>>" + bucket.getName());
-
-
-                    //get download objects
-                  /*  Blob blob = storage.get(BlobId.of(bucketName, "eordersall.appspot.com/testingaudio"));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        Log.e("TAG", "msg>>blob::>>" + new GsonBuilder().create().toJson(blob));
-                        //blob.downloadTo(Paths.get(destFilePath));
-
-                    }*/
-                    //get download objects end end
-
-
-                    //get object metadata objects
-                    Blob blob =
+        //get object metadata objects
+                   /* Blob blob =
                             storage.get(bucketName, objectName, Storage.BlobGetOption.fields(Storage.BlobField.values()));
-                    Log.e("TAG", "msg>>blob::>>" + new GsonBuilder().create().toJson(blob));
+                    Log.e(TAG, "msg>>blob::>>" + new GsonBuilder().create().toJson(blob));
                     if (blob.getMetadata() != null) {
-                        System.out.println("\n\n\nUser metadata:");
+                        Log.e(TAG,"msg>>User metadata:");
                         for (Map.Entry<String, String> userMetadata : blob.getMetadata().entrySet()) {
-                            System.out.println(userMetadata.getKey() + "=" + userMetadata.getValue());
+                            Log.e(TAG,"msg>>metakey>>"+userMetadata.getKey() + "=" + userMetadata.getValue());
                         }
-                    }
-                    //get object metadata objects end end
+                    }*/
+        //get object metadata objects end end
 
 
-                    Page<Bucket> buckets = storage.list();
-                    List<Acl> bucketAcls = bucket.getAcl();
-                    //Log.e("TAG", "msg>>bucket::>>" + new GsonBuilder().create().toJson(bucket));
+                  /*  Page<Bucket> buckets = storage.list();
+                    List<Acl> bucketAcls = bucket.getAcl();*/
+
+
+        //Log.e(TAG, "msg>>bucket::>>" + new GsonBuilder().create().toJson(bucket));
 
                    /* for (Bucket buckets1 : buckets.iterateAll()) {
                         //System.out.println(bucket.getName());
@@ -125,12 +164,12 @@ public class MainActivity extends AppCompatActivity {
                         Acl userAcl = bucket.getAcl(new Acl.User("aostapharmacy@eordersall.iam.gserviceaccount.com"));
 
                         String userRole = userAcl.getRole().name();
-                        Log.e("TAG", "msg>>Name>>" + buckets1.getName() + ">>" + userRole);
+                        Log.e(TAG, "msg>>Name>>" + buckets1.getName() + ">>" + userRole);
 
                     }*/
 
 
-                    for (Acl acl : bucketAcls) {
+                   /* for (Acl acl : bucketAcls) {
 
                         // This will give you the role.
                         // See https://cloud.google.com/storage/docs/access-control/lists#permissions
@@ -142,25 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
                         TextView textView = findViewById(R.id.text);
                         //textView.setText(entityType+"=="+role);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e("TAG", "msg>>error>>" + e.getMessage());
-
-
-                }
-            }
-        });
-        thread.start();
-
-        //Storage storage = StorageOptions.getDefaultInstance().getService();
-     /*   String accessTokenCrediental="149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
-        Date currentTime = Calendar.getInstance().getTime();
-        Credentials credentials = GoogleCredentials.create(new AccessToken(accessTokenCrediental,currentTime));
-        Storage storage = StorageOptions.newBuilder()
-                .setCredentials(credentials)
-                .build()
-                .getService();*/
+                    }*/
 
 
     }

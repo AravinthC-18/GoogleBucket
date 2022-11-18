@@ -1,22 +1,36 @@
 https://stackoverflow.com/questions/12131044/accessing-google-cloud-storage-from-android-oauth2
 authendication
+https://github.com/googleapis/google-cloud-java#authentication
+authendiacte.
+
+
+
+GET gsutil URI
+https://cloud.google.com/storage/docs/gsutil
+gs://BUCKET_NAME/OBJECT_NAME
 
 
 https://console.cloud.google.com/storage/browser/eordersall.appspot.com;tab=objects?forceOnBucketsSortingFiltering=false&authuser=1&project=eordersall&prefix=&forceOnObjectsSortingFiltering=false
 bucket
+
 https://console.cloud.google.com/iam-admin/serviceaccounts/details/117450766534303616861;edit=true/permissions?authuser=1&project=eordersall
 server accounts Grant access to add member and key.
-https://cloud.google.com/storage/docs/downloading-objects#prereq-code-samples
-downloadObjectIntoMemory for objectName
+
 https://cloud.google.com/storage/docs/viewing-editing-metadata#storage-view-object-metadata-java
 getobjectmetadata for blobname
+
+https://cloud.google.com/storage/docs/listing-objects#prereq-code-samples
+get bucket data details.
+
+https://cloud.google.com/storage/docs/downloading-objects#prereq-code-samples
+downloadObjectIntoMemory for objectName //get download objects get bucket specific details
+
+
 
 
 https://github.com/googleapis/java-storage/blob/2770a38409e89f4f291ebf9ef23db0def0458b02/samples/snippets/src/main/java/com/example/storage/bucket/PrintBucketAcl.java
 code -print bucket
 
-https://github.com/googleapis/google-cloud-java#authentication
-authendiacte.
 
 https://github.com/Triple-T/gradle-play-publisher/issues/141
 json format
