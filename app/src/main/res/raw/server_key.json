@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eordersall",
+  "private_key_id": "98f8dd120a453a1d6485ca0ad48597e8bc4b583f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDTVrDeT7gI5noM\nd/bRWqRVtidBfkBD8dSCCf8XgjOVXIua4NHXrKiXW6JNZdi/PPa9+9GueEHcWzUa\nCqhR2XNwNN7uUruknFqekEdfRgs7UEgWHPdBFThRv9Jj0k5uEafQDqXaVSnsx8DU\nr4gM9VzePMzcGvdRF1k5R7CBBMkE13Lww1NE1sAuFmInjOBN6ZcO5/kxI08Scl/M\nnUHh97O+j+8t9KBqbdwwKx9V74byAvhBRhrALcV4aJpx5HYgXiKJVJEsXPsYa2Hg\nL8dCrJdLV/BN49jwVyx4YAeXzKxGOGbuh334vKmJTGiJ9/XM/EsZduAYMI9RoLOC\nFecNHfQTAgMBAAECggEAFJcAmlgn9O4HfAmACXuMQTGC95WGS1hXPOgeazrrLaUb\nkNZQe3O95SkvUd0XVeJpo67SCe57dC2KqePZ7EeEQK1V/uAemfYFuicSXQzk8T1s\nGINv725S01wd8k2+CGk98T5MGE5tzDzV46LKXYDWMGy6BMO3zrW4oqUCZD+EGi16\nGYabNfyDDrzt9FkGYvFwS0pgC8nP3InMntRWBDV9PfKgiZyf8TuaJi74SUnQsADA\n24Ja1r5jgxAENhhDIyg5VIWV8wffhyqci8PgqQtdcRHzjrgkauVENtcOSk5appRj\nZuyrh2cLfK9MaT9F71LrTPDmJOzpQSO2Njd9fIloAQKBgQDpNX+sYx3ainURIbaT\nLUOS0B5BTT/GnRG77sid0pJl17AT/0BcoZ72I50ykn63yXE4lmwa1WTjurbGZbw3\ngXON27SObCfR+qpwInGARHJXpCgcE5Mal+yErUgew9bK4G3+R6PYRjKpdmixekV0\nlojFFlmsnNwuRTq640BLWXnUAQKBgQDn/ghSx+mwi3Q5HZ0ZC/eO5qy3hdWDohiL\ndtS6K4++6MOcTjYlo7MO35Buk84Rmfo9Oy5scpLnsmg0bc6gEohpRELvCjpuPJSS\nYfOBSvdke2Nx4/cMPxcD2EYDJ7sk/6t0/QIZufk5sx0V8R5FIMQq4llrOCuEIO2D\nyhuVhrM4EwKBgHtYj4G3HugjCU4ZXb60VyRErWvulsfO9b1Hy5Yl9Mam8PtyqzET\nTsdzCMbh0uIUSq0aam065tTIQbnnv0hAUMT8KqCVte4KvbD3lr639R5Dte87rzeG\nmVOHbzjObkH5uFOgwpk2b79P4InWWPwUTpyneKCiipZyiWClp7Dyz0wBAoGBALra\n/3U9k9og2KHQWmJ8Iw80eNTwtQLrIn3iXoD86TDJZhSVYkN60JQgOcL2xbmjncyH\nyGKM/gokxo3EC/MeOkUfOBI02M9FeB1XS7xN12lVgMmQ5cE1Z6IvJmUQMUohq8X0\nqyZxhm2U+M5dgRYIyDgKTB9yBIrNwsCtnv4Wmm+FAoGBALcqoHlWtMKkQCS+JNQJ\nKG9npw7F6LLxiWXNIWMYcdnIxsSvG6EiqIjayp1NnrZXrc5xd1kMi/SEjFfivKsn\nLBMIs8RdV0dF69ReKdtlLvXl4Aetj78dK5FKSAV+87iWaMNkJJWOMQtzQcvfpj+Q\n/soJpp9MsPisbK9MmlBNbNMj\n-----END PRIVATE KEY-----\n",
+  "client_email": "aostapharmacy@eordersall.iam.gserviceaccount.com",
+  "client_id": "117450766534303616861",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aostapharmacy%40eordersall.iam.gserviceaccount.com"
+}

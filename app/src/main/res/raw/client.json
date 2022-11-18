@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eordersall",
+  "private_key_id": "",
+  "private_key": "23abffe58b363cfceb52f2305210361278801b62",
+  "client_email": "aostapharmacy@eordersall.iam.gserviceaccount.com",
+  "client_id": "149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": ""
+}
