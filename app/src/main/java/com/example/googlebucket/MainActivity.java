@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
     String projectId = "eordersall";
     //eordersall.appspot.com/testingaudio
     String bucketName = "eordersall.appspot.com";
-    //get Download object
-    String objectName = "testingaudio/";
+    String objectName = "testingaudio";
     String gsUtil = "";
 
     TextView upload_files;
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     Page<Blob> blobs = storage.list(bucketName);
 
                     for (Blob blob : blobs.iterateAll()) {
-                        Log.e(TAG,"msg>>blobget>>"+blob.getName());
+                        Log.e(TAG, "msg>>blobget>>" + blob.getName());
                         //get download objects get bucket specific details
                         Blob blob1 = storage.get(BlobId.of(bucketName, blob.getName()));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -225,17 +224,17 @@ public class MainActivity extends AppCompatActivity {
                                 for (int n = 0; n < arrStudio.length; n++) {
                                     Log.e(TAG, "msg>>path>>arrStudio>>" + arrStudio[n]);
                                 }
-                                BlobId blobId = BlobId.of(objectName, arrStudio[0]);
+                                BlobId blobId = BlobId.of(bucketName, arrStudio[0]);
                                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     Log.e(TAG, "msg>>path>>audio>>" + audio);
 
 
-                                            //File tempFile = File.createTempFile("file", ".txt");
-                                            tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
-                                            ///data/user/0/com.example.googlebucket/cache/audiosample1355693919294717616.flac
+                                    //File tempFile = File.createTempFile("file", ".txt");
+                                    tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
+                                    ///data/user/0/com.example.googlebucket/cache/audiosample1355693919294717616.flac
 
-                                    selectedPath=tempFile.getPath();
+                                    selectedPath = tempFile.getPath();
                                     Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
 
                                     storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void dummy(){
+    public void dummy() {
         //Storage storage = StorageOptions.getDefaultInstance().getService();
      /*   String accessTokenCrediental="149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
         Date currentTime = Calendar.getInstance().getTime();
