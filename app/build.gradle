@@ -38,6 +38,8 @@ android {
         exclude 'META-INF/INDEX.LIST'
         exclude("META-INF/*.kotlin_module")
     }
+
+
 }
 
 dependencies {
@@ -55,6 +57,9 @@ dependencies {
 
     implementation group: 'com.google.api-client', name: 'google-api-client', version: '2.0.1'
     implementation group: 'com.google.api-client', name: 'google-api-client-android', version: '1.22.0'
+
+    implementation 'com.loopj.android:android-async-http:1.4.11'
+
 
 
 

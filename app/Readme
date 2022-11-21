@@ -9,6 +9,18 @@ GET gsutil URI
 https://cloud.google.com/storage/docs/gsutil
 gs://BUCKET_NAME/OBJECT_NAME
 
+CREATE A BUCKET
+//File tempFile = File.createTempFile("file", ".txt");
+
+when upload data using Storage.Objects.Insert we have to add dependencies.
+"implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.2'"
+
+
+https://cloud.google.com/java/docs/reference/google-cloud-nio/latest/com.google.cloud.storage.contrib.nio.CloudStoragePath
+upload path
+
+https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-java
+upload files
 
 https://console.cloud.google.com/storage/browser/eordersall.appspot.com;tab=objects?forceOnBucketsSortingFiltering=false&authuser=1&project=eordersall&prefix=&forceOnObjectsSortingFiltering=false
 bucket
