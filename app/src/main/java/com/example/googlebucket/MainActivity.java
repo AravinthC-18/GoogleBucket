@@ -105,8 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 openGalleryAudio();
             }
         });
+        //GetBucketDetails();
+    }
 
-       /* Thread thread = new Thread(new Runnable() {
+    private void GetBucketDetails() {
+          Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -157,8 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        thread.start();*/
-
+        thread.start();
     }
 
     public void openGalleryAudio() {
@@ -213,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
                                         .build()
                                         .getService();
                                 String[] arrStudio = (audio).split(("\\."));
+                                //File tempFile = File.createTempFile("file", ".txt");
+                                tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
 
                                 BucketInfo bucketInfo=BucketInfo.newBuilder(bucketName)
                                         .setLocation(objectName)
@@ -221,19 +225,17 @@ public class MainActivity extends AppCompatActivity {
                                 String test=objectName+"/"+audio;
                                 BlobId blobId = BlobId.of(bucketName, test);
 
-                                BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+                                BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                                        .setContentType("audio/flac")
+                                        .build();
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     Log.e(TAG, "msg>>path>>audio>>" + audio);
-
-
-                                    //File tempFile = File.createTempFile("file", ".txt");
-                                    tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
-
                                     selectedPath = tempFile.getPath();
                                     Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
 
                                     storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
+
                                     Log.e(TAG, "msg>>path>>SELECT_AUDIO  : " + tempFile);
                                     Log.e(TAG, "msg>>path>>SELECT_AUDIO getPath : " + tempFile.getPath());
                                     //doFileUpload();
