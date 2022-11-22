@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Thread thread = new Thread(new Runnable() {
+       /* Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
 
     }
 
@@ -188,15 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             File file = new File(uri.getPath());//create path from uri
                             Log.e(TAG, "msg>>path>>file path: " + file.getPath());
                             String[] str = ((file.getPath()).split("/"));
-                            for (int n = 0; n < str.length; n++) {
-                                Log.e(TAG, "msg>>path>>str>>" + str[n]);
-                            }
-
                             String[] arr = (str[str.length - 1]).split(":");
-                            for (int n = 0; n < arr.length; n++) {
-                                Log.e(TAG, "msg>>path>>arr>>" + arr[n]);
-                            }
-
                             audio = arr[1];
 
                 /*InputStream inputStream = null;
@@ -221,18 +213,22 @@ public class MainActivity extends AppCompatActivity {
                                         .build()
                                         .getService();
                                 String[] arrStudio = (audio).split(("\\."));
-                                for (int n = 0; n < arrStudio.length; n++) {
-                                    Log.e(TAG, "msg>>path>>arrStudio>>" + arrStudio[n]);
-                                }
-                                BlobId blobId = BlobId.of(bucketName, arrStudio[0]);
+
+                                BucketInfo bucketInfo=BucketInfo.newBuilder(bucketName)
+                                        .setLocation(objectName)
+                                        .build();
+                                Log.e(TAG, "msg>>path>>bucketInfo>>" + bucketInfo);
+                                String test=objectName+"/"+audio;
+                                BlobId blobId = BlobId.of(bucketName, test);
+
                                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     Log.e(TAG, "msg>>path>>audio>>" + audio);
 
 
                                     //File tempFile = File.createTempFile("file", ".txt");
                                     tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
-                                    ///data/user/0/com.example.googlebucket/cache/audiosample1355693919294717616.flac
 
                                     selectedPath = tempFile.getPath();
                                     Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
