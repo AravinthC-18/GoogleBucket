@@ -86,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
     //eordersall.appspot.com/testingaudio
     String bucketName = "eordersall.appspot.com";
     String objectName = "testingaudio";
-    String gsUtil = "";
+    String s_gsUtil = "";
 
-    TextView upload_files;
+    TextView upload_files,gsUtil;
 
     private static final int SELECT_AUDIO = 2;
     String selectedPath = "", audio;
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         prgDialog.setCancelable(false);
 
         upload_files = findViewById(R.id.upload_files);
+        gsUtil = findViewById(R.id.gsUtil);
 
         upload_files.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetBucketDetails() {
-          Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -174,10 +175,10 @@ public class MainActivity extends AppCompatActivity {
     public void openGalleryAudio() {
 
         Intent intent = new Intent();
-        //intent.setType("audio/*");
-        intent.setType("image/*");
+        intent.setType("audio/*");
+        //intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Audio "), SELECT_AUDIO);
+        startActivityForResult(Intent.createChooser(intent, "Select Audio"), SELECT_AUDIO);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (requestCode == SELECT_AUDIO) {
                 System.out.println("SELECT_AUDIO");
-
+                prgDialog.show();
                 Thread thread = new Thread(new Runnable() {
 
                     @Override
@@ -198,16 +199,15 @@ public class MainActivity extends AppCompatActivity {
                             Log.e(TAG, "msg>>path>>uri : " + uri);
                             File file = new File(uri.getPath());//create path from uri
                             Log.e(TAG, "msg>>path>>file path: " + file.getPath());
+
+                            //Get File Size using cursor
                             Cursor returnCursor =
                                     getContentResolver().query(uri, null, null, null, null);
                             int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
                             returnCursor.moveToFirst();
                             int size = (int) returnCursor.getLong(sizeIndex);
 
-                            //byte[] contentLength = String.valueOf(size).getBytes(StandardCharsets.UTF_8);
-                            byte[] contentLength = String.valueOf(size).getBytes();
-
-                            Log.e(TAG, "msg>>path>>file_size>>"+size+">>len>>"+contentLength);
+                            Log.e(TAG, "msg>>path>>file_size>>" + size);
                             String[] str = ((file.getPath()).split("/"));
                             String[] arr = (str[str.length - 1]).split(":");
                             audio = arr[1];
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                             File tempFile;
                             try {
                                 Storage.BlobTargetOption precondition = Storage.BlobTargetOption.doesNotExist();
+                                //load storage bucket
                                 storage = StorageOptions.newBuilder()
                                         .setCredentials(ServiceAccountCredentials.fromStream(getResources().openRawResource(R.raw.server_key)))
                                         .build()
@@ -237,44 +238,60 @@ public class MainActivity extends AppCompatActivity {
                                 //File tempFile = File.createTempFile("file", ".txt");
                                 tempFile = File.createTempFile(arrStudio[0], "." + arrStudio[1]);
 
-                                BucketInfo bucketInfo=BucketInfo.newBuilder(bucketName)
+                                //bucket info for specific folder to upload files using .setLocation()
+                                BucketInfo bucketInfo = BucketInfo.newBuilder(bucketName)
                                         .setLocation(objectName)
                                         .build();
                                 Log.e(TAG, "msg>>path>>bucketInfo>>" + bucketInfo);
-                                String test=objectName+"/"+audio;
+                                String test = objectName + "/" + audio;
+
+
                                 BlobId blobId = BlobId.of(bucketName, test);
-
-
                                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                                        .setContentType("image/jpeg")
+                                        .setContentType("audio/" + arrStudio[1])
                                         .build();
-                                //.setContentType("audio/"+arrStudio[1])
+                                //.setContentType("image/jpeg")
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    Log.e(TAG, "msg>>path>>audio>>" + audio);
                                     selectedPath = tempFile.getPath();
-                                    Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
                                     Log.e(TAG, "msg>>path>>selectedPath:START ");
 
-                                    //Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedPath);
-                                    Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),
-                                            R.drawable.auto_ml_1);
 
+                                    ///////////////****** IMAGE IMAGE BITMAP/*****//////////////////
+                                    //Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedPath);
+                                    /*Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),
+                                            R.drawable.auto_ml_1);
 
                                     Bitmap bitmap = bitmapOrg;
                                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                    byte[] imageInByte = stream.toByteArray();
+                                    byte[] imageInByte = stream.toByteArray();*/
 
-                                    storage.createFrom(blobInfo, new ByteArrayInputStream(imageInByte));
+                                    ///////////////****** IMAGE IMAGE BITMAP END END /*****//////////////////
 
-                                    //storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
+
+
+                                    ///////////////****** AUDIO BYTE[] /*****//////////////////
+                                    InputStream inputStream = null;
+                                    inputStream = MainActivity.this.getContentResolver().openInputStream(uri);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    byte[] buff = new byte[10240];
+                                    int i = Integer.MAX_VALUE;
+                                    while ((i = inputStream.read(buff, 0, buff.length)) > 0) {
+                                        baos.write(buff, 0, i);
+                                    }
+                                    ///////////////****** AUDIO BYTE[] END END  /*****//////////////////
+
+
+                                    storage.createFrom(blobInfo, new ByteArrayInputStream(baos.toByteArray()));
+                                    //gs://BUCKET NAME/OBJECT NAME/FILE NAME.CONTENT_TYPE
+                                    s_gsUtil="gs://"+bucketName+"/"+objectName+"/"+audio;
                                     Log.e(TAG, "msg>>path>>selectedPath:END END ");
 
-                                    Log.e(TAG, "msg>>path>>SELECT_AUDIO  : " + tempFile);
-                                    Log.e(TAG, "msg>>path>>SELECT_AUDIO getPath : " + tempFile.getPath());
-                                    //doFileUpload();
-                                    prgDialog.setMessage("Calling Upload");
+                                    //storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
+                                    Log.e(TAG, "msg>>path>>selectedPath:s_gsutil>> "+s_gsUtil);
+                                    gsUtil.setText(s_gsUtil);
+
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -290,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
+                prgDialog.dismiss();
             }
 
 
@@ -298,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void dummy() {
         //Storage storage = StorageOptions.getDefaultInstance().getService();
-     /*   String accessTokenCrediental="149282824341-45ufhh1du5f5i71vuc694p20nft39hvd.apps.googleusercontent.com";
+     /*   String accessTokenCrediental="";
         Date currentTime = Calendar.getInstance().getTime();
         Credentials credentials = GoogleCredentials.create(new AccessToken(accessTokenCrediental,currentTime));
         Storage storage = StorageOptions.newBuilder()
@@ -333,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
                         //System.out.println(bucket.getName());
 
 
-                        Acl userAcl = bucket.getAcl(new Acl.User("aostapharmacy@eordersall.iam.gserviceaccount.com"));
+                        Acl userAcl = bucket.getAcl(new Acl.User("EMAIL"));
 
                         String userRole = userAcl.getRole().name();
                         Log.e(TAG, "msg>>Name>>" + buckets1.getName() + ">>" + userRole);

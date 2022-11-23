@@ -23,6 +23,15 @@
             android:gravity="center"
             android:padding="15dp"
             android:text="UPLOAD \n FILES" />
+        <TextView
+            android:id="@+id/gsUtil"
+            android:layout_width="match_parent"
+            android:layout_margin="25dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="GS UTIL" />
 
     </LinearLayout>
 

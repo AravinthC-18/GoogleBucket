@@ -12,9 +12,11 @@ gs://BUCKET_NAME/OBJECT_NAME
 CREATE A BUCKET
 //File tempFile = File.createTempFile("file", ".txt");
 
+https://stackoverflow.com/questions/15098657/reading-a-resource-sound-file-into-a-byte-array
+audio file path to byte[] using createfrom to upload
 
 https://stackoverflow.com/questions/9316986/how-to-get-the-size-of-an-image-in-android
-Bitmap for upload image in byte[] using createfrom();
+Bitmap for upload image in byte[] using createfrom() to upload
 
 
 https://cloud.google.com/storage/docs/authentication#json-api
