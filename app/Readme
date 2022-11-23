@@ -12,6 +12,11 @@ gs://BUCKET_NAME/OBJECT_NAME
 CREATE A BUCKET
 //File tempFile = File.createTempFile("file", ".txt");
 
+
+https://stackoverflow.com/questions/9316986/how-to-get-the-size-of-an-image-in-android
+Bitmap for upload image in byte[] using createfrom();
+
+
 https://cloud.google.com/storage/docs/authentication#json-api
 https://cloud.google.com/storage/docs/authentication#storage-upload-object-java
 upload object using curl 
@@ -23,6 +28,9 @@ when upload data using Storage.Objects.Insert we have to add dependencies.
 
 https://cloud.google.com/java/docs/reference/google-cloud-nio/latest/com.google.cloud.storage.contrib.nio.CloudStoragePath
 upload path
+
+    https://github.com/googleapis/java-storage/blob/15e79b5206588150d98fb59f85d38577da0ba1d3/samples/snippets/src/main/java/com/example/storage/object/UploadObjectFromMemory.java
+upload file and size
 
 https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-java
 upload files

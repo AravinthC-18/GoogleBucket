@@ -6,10 +6,13 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextClock;
@@ -31,10 +34,13 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.gson.GsonBuilder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -87,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int SELECT_AUDIO = 2;
     String selectedPath = "", audio;
     ProgressDialog prgDialog;
+    private static final String STRING_CONTENT = "Hello, World!";
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -166,7 +174,8 @@ public class MainActivity extends AppCompatActivity {
     public void openGalleryAudio() {
 
         Intent intent = new Intent();
-        intent.setType("audio/*");
+        //intent.setType("audio/*");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Audio "), SELECT_AUDIO);
     }
@@ -189,6 +198,16 @@ public class MainActivity extends AppCompatActivity {
                             Log.e(TAG, "msg>>path>>uri : " + uri);
                             File file = new File(uri.getPath());//create path from uri
                             Log.e(TAG, "msg>>path>>file path: " + file.getPath());
+                            Cursor returnCursor =
+                                    getContentResolver().query(uri, null, null, null, null);
+                            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+                            returnCursor.moveToFirst();
+                            int size = (int) returnCursor.getLong(sizeIndex);
+
+                            //byte[] contentLength = String.valueOf(size).getBytes(StandardCharsets.UTF_8);
+                            byte[] contentLength = String.valueOf(size).getBytes();
+
+                            Log.e(TAG, "msg>>path>>file_size>>"+size+">>len>>"+contentLength);
                             String[] str = ((file.getPath()).split("/"));
                             String[] arr = (str[str.length - 1]).split(":");
                             audio = arr[1];
@@ -225,9 +244,11 @@ public class MainActivity extends AppCompatActivity {
                                 String test=objectName+"/"+audio;
                                 BlobId blobId = BlobId.of(bucketName, test);
 
+
                                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                                        .setContentType("audio/flac")
+                                        .setContentType("image/jpeg")
                                         .build();
+                                //.setContentType("audio/"+arrStudio[1])
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                     Log.e(TAG, "msg>>path>>audio>>" + audio);
@@ -235,7 +256,19 @@ public class MainActivity extends AppCompatActivity {
                                     Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
                                     Log.e(TAG, "msg>>path>>selectedPath:START ");
 
-                                    storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
+                                    //Bitmap bitmapOrg = BitmapFactory.decodeFile(selectedPath);
+                                    Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(),
+                                            R.drawable.auto_ml_1);
+
+
+                                    Bitmap bitmap = bitmapOrg;
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                    byte[] imageInByte = stream.toByteArray();
+
+                                    storage.createFrom(blobInfo, new ByteArrayInputStream(imageInByte));
+
+                                    //storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
                                     Log.e(TAG, "msg>>path>>selectedPath:END END ");
 
                                     Log.e(TAG, "msg>>path>>SELECT_AUDIO  : " + tempFile);
