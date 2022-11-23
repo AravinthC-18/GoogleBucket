@@ -233,8 +233,10 @@ public class MainActivity extends AppCompatActivity {
                                     Log.e(TAG, "msg>>path>>audio>>" + audio);
                                     selectedPath = tempFile.getPath();
                                     Log.e(TAG, "msg>>path>>selectedPath: " + selectedPath);
+                                    Log.e(TAG, "msg>>path>>selectedPath:START ");
 
                                     storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
+                                    Log.e(TAG, "msg>>path>>selectedPath:END END ");
 
                                     Log.e(TAG, "msg>>path>>SELECT_AUDIO  : " + tempFile);
                                     Log.e(TAG, "msg>>path>>SELECT_AUDIO getPath : " + tempFile.getPath());

@@ -12,6 +12,11 @@ gs://BUCKET_NAME/OBJECT_NAME
 CREATE A BUCKET
 //File tempFile = File.createTempFile("file", ".txt");
 
+https://cloud.google.com/storage/docs/authentication#json-api
+https://cloud.google.com/storage/docs/authentication#storage-upload-object-java
+upload object using curl 
+
+
 when upload data using Storage.Objects.Insert we have to add dependencies.
 "implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.2'"
 
