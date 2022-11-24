@@ -1,5 +1,7 @@
 package com.example.googlebucket;
 
+import static java.lang.Thread.sleep;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -104,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
         prgDialog = new ProgressDialog(this);
         prgDialog.setCancelable(false);
+        prgDialog.setMessage("Upload Audio :) ");
+        prgDialog.setIndeterminate(true);
+        //Loading progress uploading data 0 to 100%
+        //prgDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        //prgDialog.setProgress(0);
 
         upload_files = findViewById(R.id.upload_files);
         gsUtil = findViewById(R.id.gsUtil);
@@ -189,10 +196,26 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == SELECT_AUDIO) {
                 System.out.println("SELECT_AUDIO");
                 prgDialog.show();
+                final int totalProgressTime = 100;
                 Thread thread = new Thread(new Runnable() {
 
                     @Override
                     public void run() {
+
+                        //Loading progress uploading data 0 to 100%
+                        /*int jumpTime = 0;
+                        while(jumpTime < totalProgressTime) {
+                            try {
+                                sleep(200);
+                                jumpTime += 5;
+                                prgDialog.setProgress(jumpTime);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }*/
+
+
                         try {
 
                             Uri uri = data.getData();
@@ -287,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
                                     //gs://BUCKET NAME/OBJECT NAME/FILE NAME.CONTENT_TYPE
                                     s_gsUtil="gs://"+bucketName+"/"+objectName+"/"+audio;
                                     Log.e(TAG, "msg>>path>>selectedPath:END END ");
+                                    prgDialog.dismiss();
 
                                     //storage.create(blobInfo, Files.readAllBytes(Paths.get(selectedPath)));
                                     Log.e(TAG, "msg>>path>>selectedPath:s_gsutil>> "+s_gsUtil);
@@ -307,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
-                prgDialog.dismiss();
             }
 
 
